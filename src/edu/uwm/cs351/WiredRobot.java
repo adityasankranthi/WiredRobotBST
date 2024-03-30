@@ -53,9 +53,15 @@ public class WiredRobot implements Robot {
 	 * @param p2 second part, must not be null
 	 * @return comparison, only 0 if p1 and p2 are the same
 	 */
-	private int compare(FunctionalPart p1, FunctionalPart p2) {
-		return 0; // TODO
-	}
+    private int compare(FunctionalPart p1, FunctionalPart p2) {
+        if (comparator != null) {
+            int result = comparator.compare(p1, p2);
+            if (result != 0) {
+                return result;
+            }
+        }
+        return Long.compare(p1.getId(), p2.getId());
+    }
 	
 	/**
 	 * Check a tree of parts within bounds.
