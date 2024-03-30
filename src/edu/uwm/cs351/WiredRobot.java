@@ -153,6 +153,24 @@ public class WiredRobot implements Robot {
 	}
 	
 
+	@Override
+	public boolean addPart(String function, edu.uwm.cs351.Part part) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Part removePart(String function) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Part getPart(String function, int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	/**
 	 * Class for internal testing.  Do not modify.
 	 * Do not use in client/application code
