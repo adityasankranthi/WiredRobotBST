@@ -100,8 +100,7 @@ public class WiredRobot implements Robot {
 		// 1. all the parts are arranged correctly in a BST
 		// 2. no part in the robot has a null function
 		// This can be delegated to the helper method
-		// TODO
-		return true;
+		return checkInRange(root, null, null);
 	}
 	
 	private WiredRobot(boolean ignore) {} // do not change this constructor
