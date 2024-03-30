@@ -75,9 +75,25 @@ public class WiredRobot implements Robot {
 	 * @return whether the subtree checks out OK.
 	 * If false is returned, then exactly one report has been generated.
 	 */
-	private boolean checkInRange(FunctionalPart r, FunctionalPart lo, FunctionalPart hi) {
-		return false; // TODO
-	}
+    private boolean checkInRange(FunctionalPart r, FunctionalPart lo, FunctionalPart hi) {
+        if (r == null) {
+            return true;
+        }
+
+        if (lo != null && compare(r, lo) <= 0) {
+            return report("Node " + r.getId() + " is not greater than lower bound " + lo.getId());
+        }
+
+        if (hi != null && compare(r, hi) >= 0) {
+            return report("Node " + r.getId() + " is not less than upper bound " + hi.getId());
+        }
+
+        if (r.function == null) {
+            return report("Node " + r.getId() + " has a null function");
+        }
+
+        return checkInRange(r.left, lo, r) && checkInRange(r.right, r, hi);
+    }
 	
 	private boolean wellFormed() {
 		// Invariant:
