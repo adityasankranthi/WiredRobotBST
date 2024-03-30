@@ -8,19 +8,21 @@ This is a homework assignment at University of Wisconsin-Milwaukee.
 ### Focus
 
 #### What is this homework assignment about?
-
+The homework assignment involves re-implementing the WiredRobot Abstract Data Type using a Binary Search Tree data structure.
 ### Gather
 
 #### What do I know?  What do I need to know that's new?
+I need to get myself familiar with the concepts of a binary tree and node implementations.
 
 ### Brainstorm
 
 #### What are some ideas for solving this homework assignment?
+Read the textbook and following the todo list in the homework.
 
 ### Plan
 
 #### What will I work on first after I finish this planning part?
-
+I will follow the todo list. 
 
 *The preceding steps should be completed and committed by the
 Friday 10pm deadline.*
