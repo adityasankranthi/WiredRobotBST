@@ -120,6 +120,7 @@ public class WiredRobot implements Robot {
 	 */
 	public WiredRobot(Comparator<FunctionalPart> comp) {
 		// TODO
+        this.comparator = comp;
 		assert wellFormed() : "Invariant not established by constructor";
 	}
 	
@@ -128,7 +129,17 @@ public class WiredRobot implements Robot {
 	 * @return the first part, null if this robot is empty
 	 */
 	public FunctionalPart getFirst() {
-		return null; // TODO: don't forget invariant!
+		assert wellFormed() : "Invariant not established by constructor";
+		if (root == null) {
+	        return null;
+	    }
+	
+	    FunctionalPart current = root;
+	    while (current.left != null) {
+	        current = current.left;
+	    }
+		assert wellFormed() : "Invariant not established by constructor";
+	    return current;
 	}
 	
 	// helper method for an efficient implementation of "get"
@@ -172,13 +183,38 @@ public class WiredRobot implements Robot {
 		//      This requires a new helper method.
 		assert wellFormed() : "invariant broken by setComparator";
 	}
-	
 
-	@Override
-	public boolean addPart(String function, edu.uwm.cs351.Part part) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public boolean addPart(String function, Part part) {
+		assert wellFormed() : "invariant broken in addPart";
+        FunctionalPart newPart = new FunctionalPart();
+        newPart = (FunctionalPart) part;
+		if (newPart.function != null) throw new IllegalArgumentException("part already exits");
+        newPart.function = function;
+        if (root == null) {
+            root = newPart;
+            return true;
+        }
+        FunctionalPart current = root;
+        while (true) {
+            int comparison = compare(newPart, current);
+            if (comparison < 0) {
+                if (current.left == null) {
+                    current.left = newPart;
+                    break;
+                }
+                current = current.left;
+            } else if (comparison > 0) {
+                if (current.right == null) {
+                    current.right = newPart;
+                    break;
+                }
+                current = current.right;
+            } 
+        }
+		assert wellFormed() : "invariant broken in setComparator";
+        return true;
+    }
 
 	@Override
 	public Part removePart(String function) {
