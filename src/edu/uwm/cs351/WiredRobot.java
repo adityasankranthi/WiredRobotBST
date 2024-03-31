@@ -43,6 +43,10 @@ public class WiredRobot implements Robot {
 	
 	private FunctionalPart root;
 	private Comparator<FunctionalPart> comparator; // null = don't care
+	public static Comparator<FunctionalPart> uniqueID = (p1, p2) -> {
+	    // Compare by unique IDs
+	    return Long.compare(p1.getId(), p2.getId());
+	};
 	
 	/**
 	 * Compare two parts according to our purposes.
@@ -129,16 +133,15 @@ public class WiredRobot implements Robot {
 	 * @return the first part, null if this robot is empty
 	 */
 	public FunctionalPart getFirst() {
-		assert wellFormed() : "Invariant not established by constructor";
+		assert wellFormed() : "Invariant broken in getFirst";
 		if (root == null) {
 	        return null;
 	    }
-	
 	    FunctionalPart current = root;
 	    while (current.left != null) {
 	        current = current.left;
 	    }
-		assert wellFormed() : "Invariant not established by constructor";
+		assert wellFormed() : "Invariant broken by getFirst";
 	    return current;
 	}
 	
@@ -176,6 +179,18 @@ public class WiredRobot implements Robot {
 	// TODO: the three robot methods
 
 	// TODO: need helper method for setComparator
+    private void setComparatorHelper(FunctionalPart r) {
+        if (r == null) {
+            return;
+        }
+        setComparatorHelper(r.left);
+        r.left = null;
+        setComparatorHelper(r.right);
+        r.right = null;
+        String func = r.function;
+        r.function = null;
+        addPart(func, r);
+    }
 	
 	/**
 	 * Change the comparator used to order the robot parts.
@@ -185,19 +200,23 @@ public class WiredRobot implements Robot {
 	 * @param comp comparator to use, if null, then henceforth the parts
 	 * can be in any order.
 	 */
-	public void setComparator(Comparator<FunctionalPart> comp) {
-		assert wellFormed() : "invariant broken in setComparator";
-		// TODO: Complete this!
-		// Hint: After handling special easy case,
-		//   reinsert all parts back into an emptied tree
-		//      in pre-order over the tree.
-		//      This requires a new helper method.
-		assert wellFormed() : "invariant broken by setComparator";
-	}
+    public void setComparator(Comparator<FunctionalPart> comp) {
+        assert wellFormed() : "invariant broken in setComparator";
+        if (comp == null) {
+            comparator = uniqueID;
+        }
+        FunctionalPart oldRoot = root;
+        root = null;
+        comparator = comp;
+        setComparatorHelper(oldRoot);
+
+        assert wellFormed() : "invariant broken by setComparator";
+    }
 
     @Override
     public boolean addPart(String function, Part part) {
 		assert wellFormed() : "invariant broken in addPart";
+		if (part == null || function == null) throw new NullPointerException("function or part is null");
         FunctionalPart newPart = new FunctionalPart();
         newPart = (FunctionalPart) part;
 		if (newPart.function != null) throw new IllegalArgumentException("part already exits");
@@ -235,8 +254,12 @@ public class WiredRobot implements Robot {
 
 	@Override
 	public Part getPart(String function, int index) {
-		// TODO Auto-generated method stub
-		return null;
+		assert wellFormed() : "invariant broken in addPart";
+		if (index < 0) throw new IllegalArgumentException("index can't be negative");
+	    Cell<Integer> mutableIndex = new Cell<>(index);
+	    FunctionalPart result = getHelper(root, function, mutableIndex);
+		assert wellFormed() : "invariant broken in addPart";
+	    return result;
 	}
 
 	/**
