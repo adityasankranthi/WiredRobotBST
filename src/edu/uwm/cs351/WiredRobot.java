@@ -157,9 +157,20 @@ public class WiredRobot implements Robot {
 	 * @return 0-based matching part, may be null
 	 */
 	private static FunctionalPart getHelper(FunctionalPart r, String function, Cell<Integer> mutableIndex) {
-		return null; // TODO
-		// Use recursion.  Do not micro-manage!
-		// Never check a child for null or look at its function.
+	    if (r == null) {
+	        return null;
+	    }
+	    FunctionalPart result = getHelper(r.left, function, mutableIndex);
+	    if (result != null) {
+	        return result;
+	    }
+	    if (function == null || function.equals(r.function)) {
+	        if (mutableIndex.get() == 0) {
+	            return r;
+	        }
+	        mutableIndex.set(mutableIndex.get() - 1);
+	    }
+	    return getHelper(r.right, function, mutableIndex);
 	}
 
 	// TODO: the three robot methods
