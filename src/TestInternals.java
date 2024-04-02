@@ -1182,7 +1182,7 @@ public class TestInternals extends LockedTestCase {
     	assertWellFormed(true, r);
     }
     
-    public void tesW10() {
+    public void testW10() {
     	Spy.Part p1 = spy.newPart(null, null, null);
     	r = spy.create(p1, null);
     	assertWellFormed(false, r);
