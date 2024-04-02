@@ -1,6 +1,7 @@
 package edu.uwm.cs351;
 
 import java.util.Comparator;
+import java.util.Stack;
 import java.util.function.Consumer;
 
 import edu.uwm.cs351.util.Cell;
@@ -123,7 +124,6 @@ public class WiredRobot implements Robot {
 	 * @param comp order to use, if null, then unordered
 	 */
 	public WiredRobot(Comparator<FunctionalPart> comp) {
-		// TODO
         this.comparator = comp;
 		assert wellFormed() : "Invariant not established by constructor";
 	}
@@ -176,21 +176,40 @@ public class WiredRobot implements Robot {
 	    return getHelper(r.right, function, mutableIndex);
 	}
 
-	// TODO: the three robot methods
 
-	// TODO: need helper method for setComparator
-    private void setComparatorHelper(FunctionalPart r) {
-        if (r == null) {
-            return;
-        }
-        setComparatorHelper(r.left);
-        r.left = null;
-        setComparatorHelper(r.right);
-        r.right = null;
-        String func = r.function;
-        r.function = null;
-        addPart(func, r);
-    }
+	private FunctionalPart setComparatorHelper(FunctionalPart r) {
+	    if (r == null) {
+	        return null;
+	    }
+
+	    Stack<FunctionalPart> stack = new Stack<>();
+	    stack.push(r);
+
+	    while (!stack.isEmpty()) {
+	        FunctionalPart current = stack.pop();
+	        FunctionalPart left = current.left;
+	        FunctionalPart right = current.right;
+
+	        current.left = null;
+	        current.right = null;
+
+	        if (this.root == null) {
+	            this.root = current;
+	        } else {
+	            add(this.root, current);
+	        }
+
+	        if (left != null) {
+	            stack.push(left);
+	        }
+	        if (right != null) {
+	            stack.push(right);
+	        }
+	    }
+
+	    return this.root;
+	}
+
 	
 	/**
 	 * Change the comparator used to order the robot parts.
@@ -205,51 +224,52 @@ public class WiredRobot implements Robot {
         if (comp == null) {
             comparator = uniqueID;
         }
+        else {
+            comparator = comp;
+        }
         FunctionalPart oldRoot = root;
         root = null;
-        comparator = comp;
         setComparatorHelper(oldRoot);
-
         assert wellFormed() : "invariant broken by setComparator";
     }
 
-    @Override
     public boolean addPart(String function, Part part) {
-		assert wellFormed() : "invariant broken in addPart";
-		if (part == null || function == null) throw new NullPointerException("function or part is null");
+        assert wellFormed() : "invariant broken in addPart";
+        if (part == null || function == null) throw new NullPointerException("function or part is null");
         FunctionalPart newPart = new FunctionalPart();
         newPart = (FunctionalPart) part;
-		if (newPart.function != null) throw new IllegalArgumentException("part already exits");
+        if (newPart.function != null) throw new IllegalArgumentException("part already exits");
         newPart.function = function;
         if (root == null) {
             root = newPart;
             return true;
         }
-        FunctionalPart current = root;
-        while (true) {
-            int comparison = compare(newPart, current);
-            if (comparison < 0) {
-                if (current.left == null) {
-                    current.left = newPart;
-                    break;
-                }
-                current = current.left;
-            } else if (comparison > 0) {
-                if (current.right == null) {
-                    current.right = newPart;
-                    break;
-                }
-                current = current.right;
-            } 
-        }
-		assert wellFormed() : "invariant broken in setComparator";
+        add(root, newPart);
+        assert wellFormed() : "invariant broken in setComparator";
         return true;
+    }
+
+    private void add(FunctionalPart current, FunctionalPart newNode) {
+        int comparison = compare(newNode, current);
+        if (comparison < 0) {
+            if (current.left == null) {
+                current.left = newNode;
+            } else {
+            	add(current.left, newNode);
+            }
+        } else if (comparison > 0) {
+            if (current.right == null) {
+                current.right = newNode;
+            } 
+            else {
+            	add(current.right, newNode);
+            }
+        } 
     }
 
 	@Override
 	public Part removePart(String function) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("not implemented");
 	}
 
 	@Override
