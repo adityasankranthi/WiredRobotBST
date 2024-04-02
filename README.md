@@ -32,15 +32,16 @@ Friday 10pm deadline.*
 ### Review
 
 #### Did I correctly anticipate the difficulties?
+mostly yes, but I had to work on setComparator a bit too much
 
 #### How did the plan go?
-
+the plan went good.
 ### Preview
 
 #### What should I do differently for next week's homework assignment?
-
+Start early finish early.
 #### Do I need more resources?
-
+textbook and lectures were sufficient.
 ## Optional Feedback
 
 ### Comments (optional)
