@@ -1,53 +1,34 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/qi0-GMeG)
-# CompSci 351 / CompSt 751 Homework Assignment 8
+## Overview
+This project is a re-implementation of the WiredRobot Abstract Data Type (ADT) using a Binary Search Tree (BST) for efficient insertion and lookup of functional parts. The project is part of the CS 351/CST 751: Data Structures & Algorithms coursework, focusing on enhancing understanding and application of recursive data structures.
 
-This is a homework assignment at University of Wisconsin-Milwaukee.
+## Features
+- **Binary Search Tree (BST) Implementation**: The WiredRobot ADT is implemented using an endogenous BST without balancing, allowing for efficient operations.
+- **Handling Duplicates**: Parts with equivalent comparators are ordered by unique IDs to manage duplicates.
+- **Recursive Helper Methods**: Key operations such as checking the range, adding parts, and comparing elements are handled through recursive methods.
+- **Efficiency**: The implementation is optimized to handle a large number of entries, ensuring logarithmic time complexity where applicable.
 
-## Planning: Due Friday 10pm
+## Learning Objectives
+- Implement a sorted endogenous container ADT with a BST.
+- Add data to a BST efficiently.
+- Ensure the structural integrity of a BST.
+- Utilize recursion effectively in helper methods.
+- Analyze and optimize structurally recursive code.
 
-### Focus
+## Project Structure
+- **WiredRobot.java**: The main class implementing the WiredRobot ADT using a BST.
+- **UnlockTest.java**: Unlocks the provided tests without running them.
+- **TestInternals.java**: Tests helper methods and the structural integrity of the BST.
+- **TestWiredRobot.java**: JUnit tests for the ADT, excluding removal and getNext methods.
+- **TestExhaustive.java**: Exhaustive JUnit test suite for all possible small BSTs.
+- **TestEfficiency.java**: Tests ensuring the efficiency of the BST implementation.
 
-#### What is this homework assignment about?
-The homework assignment involves re-implementing the WiredRobot Abstract Data Type using a Binary Search Tree data structure.
-### Gather
+## Getting Started
+1. Clone the repository.
+2. Ensure you have a Java development environment set up.
+3. Review the project files and understand the structure.
+4. Implement the required methods, focusing on recursion and BST integrity.
+5. Run the provided test cases to validate your implementation.
 
-#### What do I know?  What do I need to know that's new?
-I need to get myself familiar with the concepts of a binary tree and node implementations.
-
-### Brainstorm
-
-#### What are some ideas for solving this homework assignment?
-Read the textbook and following the todo list in the homework.
-
-### Plan
-
-#### What will I work on first after I finish this planning part?
-I will follow the todo list. 
-
-*The preceding steps should be completed and committed by the
-Friday 10pm deadline.*
-
-## Reflection: Due Monday 10pm
-
-### Review
-
-#### Did I correctly anticipate the difficulties?
-mostly yes, but I had to work on setComparator a bit too much
-
-#### How did the plan go?
-the plan went good.
-### Preview
-
-#### What should I do differently for next week's homework assignment?
-Start early finish early.
-#### Do I need more resources?
-textbook and lectures were sufficient.
-## Optional Feedback
-
-### Comments (optional)
-
-#### Here are my comments on the assignment to the course instructors:
-
-### Check in (optional)
-
-#### How am I feeling about the assignment and this course?
+## How to Run Tests
+- Use the provided JUnit test files to check the correctness, efficiency, and integrity of your implementation.
+- The `TestEfficiency.java` file is particularly important for ensuring your implementation scales well with large data sets.
